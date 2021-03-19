@@ -29,7 +29,7 @@ const Content = (props) => {
 };
 
 const Total = (props) => {
-  var total = 0;
+  let total = 0;
   props.content.forEach(part => {
     total += part.exercise
   });
