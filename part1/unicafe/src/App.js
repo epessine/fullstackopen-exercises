@@ -11,17 +11,17 @@ const App = () => {
 
   return (
     <div>
-      <Header title={ title } />
+      <Header title={title} />
       <Button text={"good"} handleClick={() => setGood(good + 1)} />
       <Button text={"neutral"} handleClick={() => setNeutral(neutral + 1)} />
       <Button text={"bad"} handleClick={() => setBad(bad + 1)} />
       <Statistics 
-        good={ good }
-        neutral={ neutral }
-        bad={ bad }
-        total={ total }
-        average={ average }
-        percent={ percent }
+        good={good}
+        neutral={neutral}
+        bad={bad}
+        total={total}
+        average={average}
+        percent={percent + " %"}
       />
     </div>
   );
@@ -30,7 +30,7 @@ const App = () => {
 const Header = ({ title }) => {
   return (
     <h1>
-      { title }
+      {title}
     </h1>
   );
 }
@@ -38,7 +38,7 @@ const Header = ({ title }) => {
 const Button = ({ text, handleClick }) => {
   return (
     <button onClick={handleClick}>
-      { text }
+      {text}
     </button>
   );
 }
@@ -56,13 +56,19 @@ const Statistics = ({ good, neutral, bad, total, average, percent }) => {
   return (
     <div>
       <h1>statistics</h1>
-      <p>good { good }</p>
-      <p>neutral { neutral }</p>
-      <p>bad { bad }</p>
-      <p>total { total }</p>
-      <p>average { average }</p>
-      <p>percent { percent } %</p>
+      <Statistic name={'good'} count={good} />
+      <Statistic name={'neutral'} count={neutral} />
+      <Statistic name={'bad'} count={bad} />
+      <Statistic name={'total'} count={total} />
+      <Statistic name={'average'} count={average} />
+      <Statistic name={'percent'} count={percent} />
     </div>
+  )
+}
+
+const Statistic = ({ name, count }) => {
+  return (
+    <p>{ name } { count }</p>
   )
 }
 
