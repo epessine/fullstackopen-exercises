@@ -25,7 +25,7 @@ const App = () => {
       />
     </div>
   );
-};
+}
 
 const Header = ({ title }) => {
   return (
@@ -33,7 +33,7 @@ const Header = ({ title }) => {
       { title }
     </h1>
   );
-};
+}
 
 const Button = ({ text, handleClick }) => {
   return (
@@ -41,9 +41,18 @@ const Button = ({ text, handleClick }) => {
       { text }
     </button>
   );
-};
+}
 
 const Statistics = ({ good, neutral, bad, total, average, percent }) => {
+  if (!good && !neutral && !bad) {
+    return (
+      <div>
+        <h1>statistics</h1>
+        <p>No feedback given</p>
+      </div>
+    )
+  }
+
   return (
     <div>
       <h1>statistics</h1>
