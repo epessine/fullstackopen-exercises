@@ -24,10 +24,10 @@ function App() {
   
   if (filteredCountries.length > 10) {
     results = ['Too many matches, specify another filter'];
-  } else if (filteredCountries.length > 1) {
-    results = filteredCountries.map(country => country.name);
-  } else if (filteredCountries.length === 1) {
+  } else if (filteredCountries.length > 0) {
     results = filteredCountries;
+  } else {
+    results = ['No results, specify another filter'];
   }
 
   return (
@@ -36,10 +36,16 @@ function App() {
         find countries <input value={filter} onChange={handleFilterChange}/>
       </div>
       <div>
-        {filteredCountries.length > 1
+        {filteredCountries.length !== 1
           ?
           results.map(result =>
-            <p>{result}</p>
+            <div>
+              <p>
+                {result.name || result}
+                {typeof result === 'object' && <button onClick={() => setFilter(result.name.toLowerCase())}>show</button>}
+              </p> 
+
+            </div>
           )
           :
           results.map(result =>
