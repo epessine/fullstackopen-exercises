@@ -7,8 +7,8 @@ const getAll = () => {
   return req.then(res => res.data)
 }
 
-const create = newPerson => {
-  const req = axios.post('http://localhost:3001/persons', newPerson);
+const create = person => {
+  const req = axios.post('http://localhost:3001/persons', person);
   return req.then(res => res.data)
 }
 
@@ -17,5 +17,10 @@ const destroy = (id) => {
   return req.then(res => res.data)
 }
 
+const update = person => {
+  const req = axios.put(`http://localhost:3001/persons/${person.id}`, person);
+  return req.then(res => res.data);
+}
+
 /* eslint import/no-anonymous-default-export: [2, {"allowObject": true}] */
-export default { getAll, create, destroy };
+export default { getAll, create, destroy, update };

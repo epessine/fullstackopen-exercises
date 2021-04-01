@@ -63,7 +63,19 @@ const App = () => {
           console.log(e);
         })
     } else {
-      alert(`${newName} is already added to phonebook!`)
+      const updatedPerson = {
+        ...hasName,
+        number: newNumber,
+      };
+      if (window.confirm(`${newName} is already added to phonebook, replace the old number with (${newNumber})?`)) {
+        personService.update(updatedPerson)
+        .then(returnedPerson => {
+          setPersons(persons.map(person => person.id === returnedPerson.id ? returnedPerson : person))
+        })
+        .catch(e => {
+          console.log(e);
+        })
+      }
     }
   }
 
