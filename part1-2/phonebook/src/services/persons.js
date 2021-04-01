@@ -12,5 +12,10 @@ const create = newPerson => {
   return req.then(res => res.data)
 }
 
+const destroy = (id) => {
+  const req = axios.delete(`http://localhost:3001/persons/${id}`);
+  return req.then(res => res.data)
+}
+
 /* eslint import/no-anonymous-default-export: [2, {"allowObject": true}] */
-export default { getAll, create };
+export default { getAll, create, destroy };

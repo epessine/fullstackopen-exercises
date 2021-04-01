@@ -1,6 +1,5 @@
 import React, { useState, useEffect } from 'react';
 import personService from '../services/persons';
-import axios from 'axios';
 import Search from './Search';
 import List from './List';
 import Form from './Form';
@@ -29,6 +28,19 @@ const App = () => {
 
   const handleSearchChange = e => {
     setNewSearch(e.target.value.toLowerCase());
+  }
+
+  const handleDelete = id => {
+    const deletedPerson = persons.find(person => person.id === id);
+    if (window.confirm(`Delete ${deletedPerson.name}?`)) {
+      personService.destroy(id)
+        .then(() => {
+          setPersons(persons.filter(person => person !== deletedPerson))
+        })
+        .catch(e => {
+          console.log(e);
+        })
+    }
   }
 
   const personsToShow = newSearch 
@@ -64,7 +76,7 @@ const App = () => {
         values={[newName, newNumber]}
       >
       </Form>
-      <List persons={personsToShow}></List>
+      <List persons={personsToShow} handleDelete={handleDelete}></List>
     </div>
   )
 }
