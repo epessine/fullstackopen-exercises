@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from 'react';
+import personService from '../services/persons';
 import axios from 'axios';
 import Search from './Search';
 import List from './List';
@@ -11,10 +12,10 @@ const App = () => {
   const [ newSearch, setNewSearch ] = useState('');
 
   useEffect(() => {
-    axios
-      .get('http://localhost:3001/persons')
-      .then(response => {
-        setPersons(response.data)
+    personService
+      .getAll()
+      .then(initialPersons => {
+        setPersons(initialPersons)
       })
   }, []);
 
@@ -38,14 +39,13 @@ const App = () => {
     e.preventDefault();
     const hasName = persons.find(person => person.name === newName);
     if (!hasName) {
-      //setPersons(persons.concat({ name: newName, number: newNumber }));
       const newPerson = {
-        "name": newName, 
-        "number": newNumber,
-      }
-      axios.post('http://localhost:3001/persons', newPerson)
-        .then(res => {
-          setPersons(persons.concat(res.data))
+        name: newName, 
+        number: newNumber,
+      };
+      personService.create(newPerson)
+        .then(returnedPerson => {
+          setPersons(persons.concat(returnedPerson))
         })
         .catch(e => {
           console.log(e);
