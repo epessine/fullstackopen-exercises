@@ -3,18 +3,29 @@ import personService from '../services/persons';
 import Search from './Search';
 import List from './List';
 import Form from './Form';
+import Notification from './Notification';
 
 const App = () => {
-  const [ persons, setPersons ] = useState([]);
+  const [ persons, setPersons ] = useState(null);
   const [ newName, setNewName ] = useState('');
   const [ newNumber, setNewNumber ] = useState('');
   const [ newSearch, setNewSearch ] = useState('');
+  const [ notification, setNotification ] = useState(null);
 
   useEffect(() => {
     personService
       .getAll()
       .then(initialPersons => {
         setPersons(initialPersons)
+      })
+      .catch(e => {
+        setNotification({
+          message: e.message,
+          status: 'error'
+        })
+        setTimeout(() => {
+          setNotification(null)
+        }, 5000)
       })
   }, []);
 
@@ -36,9 +47,22 @@ const App = () => {
       personService.destroy(id)
         .then(() => {
           setPersons(persons.filter(person => person !== deletedPerson))
+          setNotification({
+            message: `Deleted ${deletedPerson.name}`,
+            status: 'success'
+          })
+          setTimeout(() => {
+            setNotification(null)
+          }, 5000)
         })
         .catch(e => {
-          console.log(e);
+          setNotification({
+            message: e.message,
+            status: 'error'
+          })
+          setTimeout(() => {
+            setNotification(null)
+          }, 5000)
         })
     }
   }
@@ -58,9 +82,22 @@ const App = () => {
       personService.create(newPerson)
         .then(returnedPerson => {
           setPersons(persons.concat(returnedPerson))
+          setNotification({
+            message: `Added ${returnedPerson.name}`,
+            status: 'success'
+          })
+          setTimeout(() => {
+            setNotification(null)
+          }, 5000)
         })
         .catch(e => {
-          console.log(e);
+          setNotification({
+            message: e.message,
+            status: 'error'
+          })
+          setTimeout(() => {
+            setNotification(null)
+          }, 5000)
         })
     } else {
       const updatedPerson = {
@@ -71,9 +108,22 @@ const App = () => {
         personService.update(updatedPerson)
         .then(returnedPerson => {
           setPersons(persons.map(person => person.id === returnedPerson.id ? returnedPerson : person))
+          setNotification({
+            message: `Updated ${returnedPerson.name}`,
+            status: 'success'
+          })
+          setTimeout(() => {
+            setNotification(null)
+          }, 5000)
         })
         .catch(e => {
-          console.log(e);
+          setNotification({
+            message: e.message,
+            status: 'error'
+          })
+          setTimeout(() => {
+            setNotification(null)
+          }, 5000)
         })
       }
     }
@@ -82,6 +132,7 @@ const App = () => {
   return (
     <div>
       <h2>Phonebook</h2>
+      <Notification notification={notification}></Notification>
       <Search value={newSearch} handler={handleSearchChange}></Search>
       <Form 
         handlers={[handleSubmit, handleNameChange, handleNumberChange]}

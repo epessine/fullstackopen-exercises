@@ -1,6 +1,10 @@
 import React from 'react';
 
 const List = ({ persons, handleDelete }) => {
+  if (!persons) {
+    return null
+  }
+  
   return (
     <div>
       <h2>Numbers</h2>
