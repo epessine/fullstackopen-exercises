@@ -30,19 +30,20 @@ const App = () => {
   }, []);
 
   const handleNameChange = e => {
-    setNewName(e.target.value);
+    setNewName(e.target.value)
   }
 
   const handleNumberChange = e => {
-    setNewNumber(e.target.value);
+    setNewNumber(e.target.value)
   }
 
   const handleSearchChange = e => {
-    setNewSearch(e.target.value.toLowerCase());
+    setNewSearch(e.target.value.toLowerCase())
   }
 
   const handleDelete = id => {
     const deletedPerson = persons.find(person => person.id === id);
+
     if (window.confirm(`Delete ${deletedPerson.name}?`)) {
       personService.destroy(id)
         .then(() => {
@@ -73,8 +74,9 @@ const App = () => {
 
   const handleSubmit = e => {
     e.preventDefault();
-    const hasName = persons.find(person => person.name === newName);
-    if (!hasName) {
+    const foundPerson = persons.find(person => person.name === newName);
+
+    if (!foundPerson) {
       const newPerson = {
         name: newName, 
         number: newNumber,
@@ -101,7 +103,7 @@ const App = () => {
         })
     } else {
       const updatedPerson = {
-        ...hasName,
+        ...foundPerson,
         number: newNumber,
       };
       if (window.confirm(`${newName} is already added to phonebook, replace the old number with (${newNumber})?`)) {
