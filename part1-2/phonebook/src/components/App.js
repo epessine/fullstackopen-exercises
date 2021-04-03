@@ -94,7 +94,7 @@ const App = () => {
         })
         .catch(e => {
           setNotification({
-            message: e.message,
+            message: e.response.data.error,
             status: 'error'
           })
           setTimeout(() => {
@@ -120,7 +120,7 @@ const App = () => {
         })
         .catch(e => {
           setNotification({
-            message: e.message,
+            message: e.response.data.error,
             status: 'error'
           })
           setTimeout(() => {
